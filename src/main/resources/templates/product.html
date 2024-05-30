@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/product.css" rel="stylesheet">
+    <style>
+        .navbar-custom {
+            background-color: #000;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-nav .nav-link {
+            color: #fff;
+        }
+
+    </style>
+</head>
+<div th:replace="/fragments/header2 :: header"/>
+<body>
+
+<!--<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">-->
+<!--    <a class="navbar-brand" href="#">Once More</a>-->
+<!--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--        <ul class="navbar-nav ml-auto">-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#">Men</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#">Women</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#">Sale</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#">Blog</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i></a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#"><i class="fas fa-user"></i></a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select class="form-control" id="gender">
+                    <option>All</option>
+                    <option>Men</option>
+                    <option>Women</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="size">Size</label>
+                <select class="form-control" id="size">
+                    <option>All</option>
+                    <option>Small</option>
+                    <option>Medium</option>
+                    <option>Large</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="color">Color</label>
+                <select class="form-control" id="color">
+                    <option>All</option>
+                    <option>Black</option>
+                    <option>Brown</option>
+                    <option>Gray</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="price">Shop by prices</label>
+                <select class="form-control" id="price">
+                    <option>All</option>
+                    <option>$0 - $50</option>
+                    <option>$50 - $100</option>
+                    <option>$100 - $200</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="brand">Brand</label>
+                <select class="form-control" id="brand">
+                    <option>All</option>
+                    <option>Brand A</option>
+                    <option>Brand B</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button class="btn btn-dark btn-block">Filter</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="product-card">
+                <img src="../static/images/ao1.png" alt="Product Image">
+                <div class="product-name">LANGG WB</div>
+                <div class="product-price">6,690,000₫</div>
+                <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                <button class="btn btn-dark">Buy now</button>
+                <button class="btn btn-secondary">Add to cart</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="product-card">
+                <img src="link_to_image2" alt="Product Image">
+                <div class="product-name">VERTIG WB</div>
+                <div class="product-price">4,290,000₫</div>
+                <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                <button class="btn btn-dark">Buy now</button>
+                <button class="btn btn-secondary">Add to cart</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="product-card">
+                <img src="link_to_image3" alt="Product Image">
+                <div class="product-name">FOSSIL WB</div>
+                <div class="product-price">4,290,000₫</div>
+                <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                <button class="btn btn-dark">Buy now</button>
+                <button class="btn btn-secondary">Add to cart</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="product-card">
+                <img src="link_to_image4" alt="Product Image">
+                <div class="product-name">COWHIDE WB</div>
+                <div class="product-price">4,200,000₫</div>
+                <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                <button class="btn btn-dark">Buy now</button>
+                <button class="btn btn-secondary">Add to cart</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="product-card">
+                <img src="link_to_image5" alt="Product Image">
+                <div class="product-name">FOSSIL VINT WB</div>
+                <div class="product-price">5,319,000₫</div>
+                <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                <button class="btn btn-dark">Buy now</button>
+                <button class="btn btn-secondary">Add to cart</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="product-card">
+                <img src="link_to_image6" alt="Product Image">
+                <div class="product-name">MASCULINE WB</div>
+                <div class="product-price">1,779,500₫</div>
+                <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                <button class="btn btn-dark">Buy now</button>
+                <button class="btn btn-secondary">Add to cart</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="product-card">
+                <img src="link_to_image7" alt="Product Image">
+                <div class="product-name">ESPANA COIN NECKL</div>
+                <div class="product-price">1,779,500₫</div>
+                <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                <button class="btn btn-dark">Buy now</button>
+                <button class="btn btn-secondary">Add to cart</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="product-card">
+                <img src="link_to_image8" alt="Product Image">
+                <div class="product-name">ST CHRIS NECKL</div>
+                <div class="product-price">1,779,500₫</div>
+                <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                <button class="btn btn-dark">Buy now</button>
+                <button class="btn btn-secondary">Add to cart</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="product-card">
+                <img src="link_to_image9" alt="Product Image">
+                <div class="product-name">SPEC ROUND GLASSES</div>
+                <div class="product-price">1,690,000₫</div>
+                <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                <button class="btn btn-dark">Buy now</button>
+                <button class="btn btn-secondary">Add to cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<div th:replace="/fragments/footer2 :: footer"/>
+
+</html>
