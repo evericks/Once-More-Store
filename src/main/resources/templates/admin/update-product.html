@@ -50,8 +50,9 @@
 </head>
 <body>
 <div class="container form-container">
-    <h2>Create Product</h2>
-    <form th:action="@{/admin/create-product}" th:object="${product}" method="post" enctype="multipart/form-data">
+    <h2>Update Product</h2>
+    <form th:action="@{/admin/product/update}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}">
         <div class="mb-3">
             <label for="productName" class="form-label">Product Name</label>
             <input type="text" class="form-control" th:field="*{name}" id="productName" required>
@@ -71,18 +72,24 @@
         <div class="mb-3">
             <label for="productCategory" class="form-label">Category</label>
             <select class="form-select" name="categoryIds" id="productCategory" multiple required>
-                <option th:each="category : ${categories}" th:value="${category.id}"  th:text="${category.name}">Electronics</option>
+                <option th:each="category : ${categories}" th:value="${category.id}"
+                        th:text="${category.name}"
+                        th:selected="${product.getCategoryIds() != null and product.getCategoryIds.contains(category.id)}">Electronics</option>
             </select>
         </div>
 
         <div class="mb-3">
             <label for="productImages" class="form-label">Product Images</label>
             <input type="file" class="form-control"  name="images" id="productImages" multiple accept="image/*">
-<!--            <div class="image-preview" id="imagePreview"></div>-->
-            <div id="selectedImages" class="selected-images"></div>
+            <!--            <div class="image-preview" id="imagePreview"></div>-->
+            <div id="selectedImages" class="selected-images">
+                <div class="image-container" th:each="imageUrl : ${product.getImageUrls()}">
+                    <img th:src="@{/static/images/{imageName}(imageName=${imageUrl})}" alt="Product Image" class="image-preview">
+                </div>
+            </div>
 
         </div>
-        <button type="submit" class="btn btn-primary">Create Product</button>
+        <button type="submit" class="btn btn-primary">Update Product</button>
     </form>
     <input id="message" type="hidden" th:value="${toastMessage}"/>
 </div>
@@ -111,15 +118,6 @@
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 imgContainer.appendChild(img);
-
-                // const removeBtn = document.createElement('button');
-                // removeBtn.classList.add('remove-btn');
-                // removeBtn.innerHTML = 'X';
-                // removeBtn.addEventListener('click', function() {
-                //     imgContainer.remove();
-                // });
-                // imgContainer.appendChild(removeBtn);
-
                 selectedImagesContainer.appendChild(imgContainer);
             }
             reader.readAsDataURL(file);

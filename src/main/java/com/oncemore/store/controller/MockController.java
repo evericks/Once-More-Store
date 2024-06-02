@@ -99,8 +99,8 @@ public class MockController {
             Category category = categories.get(categoryIndex);
 
             ProductCategory productCategory = new ProductCategory();
-            productCategory.setProduct(product);
-            productCategory.setCategory(category);
+            productCategory.setProductId(product.getId());
+            productCategory.setCategoryId(category.getId());
             productCategories.add(productCategory);
         }
 

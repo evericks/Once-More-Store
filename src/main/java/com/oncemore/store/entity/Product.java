@@ -1,17 +1,16 @@
 package com.oncemore.store.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -37,7 +36,16 @@ public class Product {
     @Column(name = "Quantity", nullable = false)
     private int quantity;
 
+    @Column(name = "Status")
+    private boolean status;
+
     @CreatedDate
     @Column(name = "CreateAt", nullable = false, columnDefinition = "DATETIME DEFAULT GETDATE()")
     private Date createAt;
+
+    @Transient
+    private List<UUID> categoryIds;
+
+    @Transient
+    private List<String> imageUrls;
 }

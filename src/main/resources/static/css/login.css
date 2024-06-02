@@ -48,7 +48,7 @@ h1 {
 }
 .login-bot {
   border-radius: 0 0 5px 5px;
-  height: 285px;
+  /*height: 285px;*/
   border: 1px solid #e7e7e7;
   text-align: center;
 }

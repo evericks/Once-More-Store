@@ -1,13 +1,11 @@
 package com.oncemore.store.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -20,11 +18,15 @@ public class ProductCategory {
     @Column(name = "Id")
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "CategoryId", nullable = false)
-    private Category category;
+    //    @ManyToOne
+//    @JoinColumn(name = "CategoryId", nullable = false)
+//    private Category category;
+    @Column(name = "CategoryId", nullable = false)
+    private UUID categoryId;
 
-    @ManyToOne
-    @JoinColumn(name = "ProductId", nullable = false)
-    private Product product;
+//    @ManyToOne
+//    @JoinColumn(name = "ProductId", nullable = false)
+//    private Product product;
+    @Column(name = "ProductId", nullable = false)
+    private UUID productId;
 }
