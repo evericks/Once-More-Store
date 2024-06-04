@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Page</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link th:href="@{static/css/product.css}" rel="stylesheet">
+    <link th:href="@{/static/css/product.css}" rel="stylesheet">
 
 </head>
 <body>
@@ -73,91 +73,17 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3" th:each="product : ${products}">
             <div class="product-card">
-                <img src="../static/images/ao1.png" alt="Product Image">
-                <div class="product-name">LANGG WB</div>
-                <div class="product-price">6,690,000₫</div>
-                <div class="product-rating">⭐⭐⭐⭐⭐</div>
-                <button class="btn btn-dark">Buy now</button>
-                <button class="btn btn-secondary">Add to cart</button>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="product-card">
-                <img src="link_to_image2" alt="Product Image">
-                <div class="product-name">VERTIG WB</div>
-                <div class="product-price">4,290,000₫</div>
-                <div class="product-rating">⭐⭐⭐⭐⭐</div>
-                <button class="btn btn-dark">Buy now</button>
-                <button class="btn btn-secondary">Add to cart</button>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="product-card">
-                <img src="link_to_image3" alt="Product Image">
-                <div class="product-name">FOSSIL WB</div>
-                <div class="product-price">4,290,000₫</div>
-                <div class="product-rating">⭐⭐⭐⭐⭐</div>
-                <button class="btn btn-dark">Buy now</button>
-                <button class="btn btn-secondary">Add to cart</button>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="product-card">
-                <img src="link_to_image4" alt="Product Image">
-                <div class="product-name">COWHIDE WB</div>
-                <div class="product-price">4,200,000₫</div>
-                <div class="product-rating">⭐⭐⭐⭐⭐</div>
-                <button class="btn btn-dark">Buy now</button>
-                <button class="btn btn-secondary">Add to cart</button>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="product-card">
-                <img src="link_to_image5" alt="Product Image">
-                <div class="product-name">FOSSIL VINT WB</div>
-                <div class="product-price">5,319,000₫</div>
-                <div class="product-rating">⭐⭐⭐⭐⭐</div>
-                <button class="btn btn-dark">Buy now</button>
-                <button class="btn btn-secondary">Add to cart</button>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="product-card">
-                <img src="link_to_image6" alt="Product Image">
-                <div class="product-name">MASCULINE WB</div>
-                <div class="product-price">1,779,500₫</div>
-                <div class="product-rating">⭐⭐⭐⭐⭐</div>
-                <button class="btn btn-dark">Buy now</button>
-                <button class="btn btn-secondary">Add to cart</button>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="product-card">
-                <img src="link_to_image7" alt="Product Image">
-                <div class="product-name">ESPANA COIN NECKL</div>
-                <div class="product-price">1,779,500₫</div>
-                <div class="product-rating">⭐⭐⭐⭐⭐</div>
-                <button class="btn btn-dark">Buy now</button>
-                <button class="btn btn-secondary">Add to cart</button>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="product-card">
-                <img src="link_to_image8" alt="Product Image">
-                <div class="product-name">ST CHRIS NECKL</div>
-                <div class="product-price">1,779,500₫</div>
-                <div class="product-rating">⭐⭐⭐⭐⭐</div>
-                <button class="btn btn-dark">Buy now</button>
-                <button class="btn btn-secondary">Add to cart</button>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="product-card">
-                <img src="link_to_image9" alt="Product Image">
-                <div class="product-name">SPEC ROUND GLASSES</div>
-                <div class="product-price">1,690,000₫</div>
+                <input type="hidden" th:value="${product.id}">
+                <th:block th:if="${#strings.isEmpty(product.url)}">
+                    <img class="product-image" src="../static/images/ao1.png" alt="Product Image">
+                </th:block>
+                <th:block th:if="${!#strings.isEmpty(product.url)}">
+                    <img class="product-image" th:src="@{/static/images/{imageName}(imageName=${product.url})}" alt="Product Image">
+                </th:block>
+                <div class="product-name" th:text="${product.name}"></div>
+                <div class="product-price" th:text="${product.price}"></div>
                 <div class="product-rating">⭐⭐⭐⭐⭐</div>
                 <button class="btn btn-dark">Buy now</button>
                 <button class="btn btn-secondary">Add to cart</button>
@@ -170,6 +96,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var productImages = document.querySelectorAll('.product-image');
+
+        productImages.forEach(function (image) {
+            image.addEventListener('click', function () {
+                var productId = this.parentElement.querySelector('input[type=hidden]').value;
+                window.location.href = '/user/product/detail/' + productId; // Đường dẫn của trang chi tiết sản phẩm
+            });
+        });
+    });
+
+</script>
 </body>
 <div th:replace="/fragments/footer :: footer"/>
 

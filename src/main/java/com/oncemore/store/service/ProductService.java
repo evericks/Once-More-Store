@@ -1,5 +1,6 @@
 package com.oncemore.store.service;
 
+import com.oncemore.store.dto.ProductDTO;
 import com.oncemore.store.entity.Product;
 import com.oncemore.store.model.ProductModel;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,4 +19,8 @@ public interface ProductService {
     Product findById(UUID id);
 
     void update(ProductModel product, List<MultipartFile> images) throws Exception;
+
+    List<ProductDTO> getAllProducts();
+
+    ProductDTO getProductById(UUID id);
 }

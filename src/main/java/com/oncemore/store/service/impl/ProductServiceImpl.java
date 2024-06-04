@@ -1,5 +1,6 @@
 package com.oncemore.store.service.impl;
 
+import com.oncemore.store.dto.ProductDTO;
 import com.oncemore.store.entity.Product;
 import com.oncemore.store.entity.ProductCategory;
 import com.oncemore.store.entity.ProductImage;
@@ -98,6 +99,16 @@ public class ProductServiceImpl implements ProductService {
         productCategoryRepository.deleteAllByProductId(productModel.getId());
         productCategoryRepository.flush();
         this.saveProductImageAndCategories(productModel, images);
+    }
+
+    @Override
+    public List<ProductDTO> getAllProducts() {
+        return repository.getAllProductBy(true);
+    }
+
+    @Override
+    public ProductDTO getProductById(UUID id) {
+        return null;
     }
 
     private void saveProductImageAndCategories(ProductModel productModel, List<MultipartFile> images) {

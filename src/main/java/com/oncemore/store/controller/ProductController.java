@@ -1,5 +1,6 @@
 package com.oncemore.store.controller;
 
+import com.oncemore.store.dto.ProductDTO;
 import com.oncemore.store.entity.Category;
 import com.oncemore.store.entity.Product;
 import com.oncemore.store.model.ProductModel;
@@ -91,5 +92,11 @@ public class ProductController {
             redirectAttributes.addFlashAttribute("toastMessage", "Đã xảy ra lỗi khi tạo sản phẩm.");
         }
         return "redirect:/admin/product/update/" + product.getId();
+    }
+
+    @GetMapping("/user/product/detail/{id}")
+    public String viewProductDetail(@PathVariable UUID id) {
+        ProductDTO product = productService.getProductById(id);
+        return "detail3" ;
     }
 }

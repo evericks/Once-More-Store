@@ -16,7 +16,16 @@
     font-size: 1.2em;
     font-weight: bold;
     margin: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
+
+/*.product-card .product-name:hover {*/
+/*    white-space: normal;*/
+/*    overflow: visible;*/
+/*    text-overflow: unset;*/
+/*}*/
 .product-card .product-price {
     color: #e74c3c;
     font-size: 1.1em;
