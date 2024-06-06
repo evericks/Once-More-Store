@@ -95,8 +95,9 @@ public class ProductController {
     }
 
     @GetMapping("/user/product/detail/{id}")
-    public String viewProductDetail(@PathVariable UUID id) {
+    public String viewProductDetail(@PathVariable UUID id, Model model) {
         ProductDTO product = productService.getProductById(id);
-        return "detail3" ;
+        model.addAttribute("product", product);
+        return "user/product-detail" ;
     }
 }

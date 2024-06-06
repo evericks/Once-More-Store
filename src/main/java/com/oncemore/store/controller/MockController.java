@@ -1,14 +1,8 @@
 package com.oncemore.store.controller;
 
 import com.github.javafaker.Faker;
-import com.oncemore.store.entity.Category;
-import com.oncemore.store.entity.Product;
-import com.oncemore.store.entity.ProductCategory;
-import com.oncemore.store.entity.User;
-import com.oncemore.store.repository.CategoryRepository;
-import com.oncemore.store.repository.ProductCategoryRepository;
-import com.oncemore.store.repository.ProductRepository;
-import com.oncemore.store.repository.UserRepository;
+import com.oncemore.store.entity.*;
+import com.oncemore.store.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @RequestMapping("/init")
@@ -37,6 +28,9 @@ public class MockController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CartRepository cartRepository;
 
     @GetMapping("/categories")
     @Transactional
@@ -69,6 +63,22 @@ public class MockController {
 
         productRepository.saveAll(products);
         return "Initialized " + 15 + " products.";
+    }
+    @GetMapping("/cart")
+    public String initCart() {
+        List<User> userList = userRepository.findAll();
+        List<Cart> carts = new ArrayList<>();
+        userList.forEach(user -> {
+            Cart cart = cartRepository.findByUserId(user.getId());
+            if (Objects.isNull(cart)) {
+                cart = new Cart();
+            }
+            cart.setUserId(user.getId());
+            cart.setAmount(BigDecimal.ZERO);
+            carts.add(cart);
+        });
+        cartRepository.saveAll(carts);
+        return "OK";
     }
 
     @GetMapping("/product-category")

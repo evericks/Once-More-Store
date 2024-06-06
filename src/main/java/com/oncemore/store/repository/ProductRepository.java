@@ -17,7 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     Product findByIdAndStatus(UUID id, boolean status);
 
     @Query(value = "select new com.oncemore.store.dto.ProductDTO ( p.id, p.name, p.price, pi.url) from Product p " +
-            "left join ProductImage pi on p.id = pi.productId and pi.isPrimary = :active where p.status = :active ")
+            "left join ProductImage pi on p.id = pi.productId and pi.isPrimary = :active where p.status = :active and p.quantity > 0")
     List<ProductDTO> getAllProductBy(@Param("active") boolean active);
 
 }

@@ -12,6 +12,7 @@ import com.oncemore.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -108,7 +109,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getProductById(UUID id) {
-        return null;
+        Product product = repository.getById(id);
+        List<String> urlImageList = productImageRepository.findAllUrlByProductId(product.getId());
+        String activeImage = "";
+        if (!CollectionUtils.isEmpty(urlImageList)) {
+            activeImage = urlImageList.get(0);
+        }
+        ProductDTO productDTO = ProductDTO.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .quantity(product.getQuantity())
+                .price(product.getPrice())
+                .description(product.getDescription())
+                .url(activeImage)
+                .urlImageList(urlImageList)
+                .build();
+        return productDTO;
     }
 
     private void saveProductImageAndCategories(ProductModel productModel, List<MultipartFile> images) {

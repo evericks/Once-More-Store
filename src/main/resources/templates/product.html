@@ -9,11 +9,20 @@
     <title>Product Page</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{/static/css/product.css}" rel="stylesheet">
+    <style>
 
+    </style>
 </head>
 <body>
 
 <div class="container mt-4">
+<!--    <div class="row col-md-12">-->
+    <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="Search your product" oninput="searchProducts()">
+        <button class="search-button"><i class="fa fa-search"></i></button>
+    </div>
+    <br/>
+<!--    </div>-->
     <div class="row mb-4">
         <div class="col-md-2">
             <div class="form-group">
@@ -72,8 +81,8 @@
             <button class="btn btn-dark btn-block">Filter</button>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-3" th:each="product : ${products}">
+    <div class="row" id="product-list">
+        <div class="col-md-3" th:each="product : ${products}" th:data-name="${product.name}">
             <div class="product-card">
                 <input type="hidden" th:value="${product.id}">
                 <th:block th:if="${#strings.isEmpty(product.url)}">
@@ -90,6 +99,9 @@
             </div>
         </div>
     </div>
+    <div class="pagination">
+    </div>
+    <br/>
 </div>
 
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
@@ -107,6 +119,106 @@
             });
         });
     });
+
+
+    const itemsPerPage = 12;
+    let currentPage = 1;
+
+    function paginateProducts() {
+        const products = document.querySelectorAll('#product-list .col-md-3');
+        const totalPages = Math.ceil(products.length / itemsPerPage);
+        const paginationContainer = document.querySelector('.pagination');
+
+        paginationContainer.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.textContent = i;
+            button.classList.add('btn', 'btn-secondary');
+            button.onclick = () => {
+                currentPage = i;
+                displayProducts();
+                updateActivePage();
+            };
+            paginationContainer.appendChild(button);
+        }
+
+        displayProducts();
+        updateActivePage();
+    }
+
+    function displayProducts() {
+        const products = document.querySelectorAll('#product-list .col-md-3');
+        products.forEach((product, index) => {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            if (index >= start && index < end) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+
+    function updateActivePage() {
+        const buttons = document.querySelectorAll('.pagination button');
+        buttons.forEach(button => {
+            button.classList.remove('active-page');
+            if (parseInt(button.textContent) === currentPage) {
+                button.classList.add('active-page');
+            }
+        });
+    }
+
+    function searchProducts() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const products = document.querySelectorAll('#product-list [data-name]');
+        const paginationContainer = document.querySelector('.pagination');
+
+        products.forEach(product => {
+            const name = product.getAttribute('data-name').toLowerCase();
+            if (name.includes(query)) {
+                product.style.display = '';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+
+        const filteredProducts = Array.from(products).filter(product => product.style.display !== 'none');
+        const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+        paginationContainer.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.textContent = i;
+            button.classList.add('btn', 'btn-secondary');
+            button.onclick = () => {
+                currentPage = i;
+                displayFilteredProducts(filteredProducts);
+                updateActivePage();
+            };
+            paginationContainer.appendChild(button);
+        }
+
+        currentPage = 1;
+        displayFilteredProducts(filteredProducts);
+        updateActivePage();
+    }
+
+    function displayFilteredProducts(filteredProducts) {
+        filteredProducts.forEach((product, index) => {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            if (index >= start && index < end) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', paginateProducts);
 
 </script>
 </body>

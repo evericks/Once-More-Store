@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -21,10 +22,13 @@ public class Cart {
     @Column(name = "Id")
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "UserId", nullable = false)
-    private User user;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "UserId", referencedColumnName = "Id", unique = true)
+//    private User user;
+
+    @Column(name = "userId", unique = true)
+    private UUID userId;
 
     @Column(name = "Amount", nullable = false)
-    private double amount;
+    private BigDecimal amount;
 }
