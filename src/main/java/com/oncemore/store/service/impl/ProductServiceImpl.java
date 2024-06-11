@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -125,6 +126,11 @@ public class ProductServiceImpl implements ProductService {
                 .urlImageList(urlImageList)
                 .build();
         return productDTO;
+    }
+
+    @Override
+    public List<ProductDTO> filterProductsByCategoryAndPrice(String categoryName, BigDecimal minPrice, BigDecimal maxPrice) {
+        return repository.filterByCategoryAndPrice(categoryName, minPrice, maxPrice, true);
     }
 
     private void saveProductImageAndCategories(ProductModel productModel, List<MultipartFile> images) {

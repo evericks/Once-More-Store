@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,5 +20,18 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     @Query(value = "select new com.oncemore.store.dto.ProductDTO ( p.id, p.name, p.price, pi.url) from Product p " +
             "left join ProductImage pi on p.id = pi.productId and pi.isPrimary = :active where p.status = :active and p.quantity > 0")
     List<ProductDTO> getAllProductBy(@Param("active") boolean active);
+
+    @Query("SELECT new com.oncemore.store.dto.ProductDTO ( p.id, p.name, p.price, pi.url) FROM Product p " +
+            " left JOIN ProductCategory pc ON p.id = pc.productId " +
+            " left JOIN Category c ON pc.categoryId = c.id " +
+            " left join ProductImage pi on p.id = pi.productId and pi.isPrimary = :active " +
+            " WHERE c.name = :categoryName " +
+            "AND (:minPrice IS NULL OR p.price >= :minPrice)" +
+            "AND (:maxPrice IS NULL OR p.price <= :maxPrice)")
+
+    List<ProductDTO> filterByCategoryAndPrice(@Param("categoryName") String categoryName,
+                                           @Param("minPrice") BigDecimal minPrice,
+                                           @Param("maxPrice") BigDecimal maxPrice,
+                                              @Param("active") boolean active);
 
 }

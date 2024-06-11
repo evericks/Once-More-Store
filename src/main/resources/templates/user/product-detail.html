@@ -154,7 +154,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <input type="hidden" th:value="${product.id}" id="productId">
+            <input type="hidden" th:data-product-id="${product.id}" th:value="${product.id}" id="productId">
             <h1 class="product-title" th:text="${product.name}">EngLand 2002-2004</h1>
             <p class="product-price" th:text="${product.price} + ' VND'">900,000₫</p>
             <p>Product information</p>
@@ -201,12 +201,13 @@
                     <button class="btn btn-success btn-lg btn-block mt-3 buy-now-btn">Buy now</button>
                 </div>
             </div>
+            <input id="message" type="hidden" th:value="${toastMessage}"/>
             <div class="row mt-2">
                 <div class="col-6">
-                    <button class="btn btn-outline-secondary btn-lg btn-block action-btn">Add to cart</button>
+                    <button class="btn btn-outline-secondary btn-lg btn-block action-btn add-product-item">Add to cart</button>
                 </div>
                 <div class="col-6">
-                    <button class="btn btn-outline-secondary btn-lg btn-block action-btn">Add to Favorite</button>
+                    <button  class="btn btn-outline-secondary btn-lg btn-block action-btn">Add to Favorite</button>
                 </div>
             </div>
         </div>
@@ -231,6 +232,35 @@
             const targetCarousel = $(this).data('target');
             const slideTo = $(this).data('slide-to');
             $(targetCarousel).carousel(slideTo);
+        });
+        // thêm sp vào giỏ hàng
+        document.querySelectorAll('.add-product-item').forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                let productId = $('#productId').attr('data-product-id');
+                let quantity = $('#quantity-input').val();
+
+                // Gửi yêu cầu tới BE để xoá sản phẩm
+                fetch(`/shoppingCart/addProduct/${productId}?quantity=${quantity}`, {
+                    method: 'GET'
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data === "00") {
+                            Toastify({
+                                text: "Đã thêm vào giỏ hàng!",
+                                duration: 3000,
+                                close: true,
+                                gravity: "top", // `top` or `bottom`
+                                position: "right", // `left`, `center` or `right`
+                                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                            }).showToast();
+                        } else {
+                            alert('Failed to remove the product from cart.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
         });
     });
 

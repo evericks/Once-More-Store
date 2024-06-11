@@ -5,6 +5,7 @@ import com.oncemore.store.entity.Product;
 import com.oncemore.store.model.ProductModel;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,4 +24,6 @@ public interface ProductService {
     List<ProductDTO> getAllProducts();
 
     ProductDTO getProductById(UUID id);
+
+    List<ProductDTO> filterProductsByCategoryAndPrice(String categoryName, BigDecimal minPrice, BigDecimal maxPrice);
 }

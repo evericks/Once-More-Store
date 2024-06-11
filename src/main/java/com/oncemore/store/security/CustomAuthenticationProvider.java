@@ -1,6 +1,9 @@
 package com.oncemore.store.security;
 
+import com.oncemore.store.entity.Cart;
 import com.oncemore.store.entity.User;
+import com.oncemore.store.model.UserCartInfo;
+import com.oncemore.store.repository.CartRepository;
 import com.oncemore.store.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,12 +17,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private UserCartInfo userCartInfo;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -30,7 +40,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         if (user != null && user.getPassword().equals(password)) {
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(user.getRole()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+            userCartInfo.setUserId(user.getId());
+            Cart cart = cartRepository.findByUserId(user.getId());
+            if (Objects.nonNull(cart)) {
+                userCartInfo.setCartId(cart.getId());
+            }
 
             return new UsernamePasswordAuthenticationToken(username, password, authorities);
         } else {

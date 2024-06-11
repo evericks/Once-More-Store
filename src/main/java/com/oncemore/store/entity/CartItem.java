@@ -20,13 +20,17 @@ public class CartItem {
     @Column(name = "Id")
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "CartId", nullable = false)
-    private Cart cart;
+//    @ManyToOne
+//    @JoinColumn(name = "CartId", nullable = false)
+//    private Cart cart;
+    @Column(name = "cartId",nullable = false)
+    private UUID cartId;
+//    @ManyToOne
+//    @JoinColumn(name = "ProductId", nullable = false)
+//    private Product product;P
 
-    @ManyToOne
-    @JoinColumn(name = "ProductId", nullable = false)
-    private Product product;
+    @Column(name = "productId",nullable = false)
+    private UUID productId;
 
     @Column(name = "Quantity", nullable = false)
     private int quantity;

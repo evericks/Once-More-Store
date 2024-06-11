@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      lang="en">
+<div th:replace="/fragments/header :: header"/>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart Page</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -87,78 +88,36 @@
     </style>
 </head>
 <body>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">ONCE MORE</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#">About us</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">MEN</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">WOMEN</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Sale</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Blog</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-user"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-heart"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i></a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<!-- Cart -->
 <div class="container my-5">
     <h2>Your Cart</h2>
-    <div class="cart-item row align-items-center my-4">
+    <div class="cart-item row align-items-center my-4" th:if="${cartDTO != null and cartDTO.cartItemDTOList != null}"
+         th:each="cartItem : ${cartDTO.cartItemDTOList}">
         <div class="col-2">
-            <img src="https://via.placeholder.com/100" alt="Barcelona 2010-2011" class="img-fluid">
+            <!--            <img src="https://via.placeholder.com/100" alt="Barcelona 2010-2011" class="img-fluid">-->
+            <img class="img-fluid"
+                 th:src="@{/static/images/{imageName}(imageName=${!#strings.isEmpty(cartItem.url) ? cartItem.url : 'ao1.png'})}"
+                 alt="Product Image">
         </div>
         <div class="col-6">
-            <h5>Barcelona 2010-2011</h5>
-            <p>Colour: Shown Blue/Scarlet<br>Size: L<br>Item: Top</p>
+            <!--            <h5 th:text="${cartItem.nameProduct}">Barcelona 2010-2011</h5>-->
+            <!--            <p th:text="${'Description: ' + cartItem.description}">Colour: Shown Blue/Scarlet</p>-->
+            <!--            <p th:text="${'Size: '}"></p>-->
+            <!--            <p th:text="${'Quantity: ' + cartItem.quantity }"></p><br>-->
+            <!--            <p th:text="${'Price: ' + cartItem.price }"></p><br>-->
+
+            <p>
+                <span th:text="${cartItem.nameProduct}">Shown Blue/Scarlet</span><br>
+                <span th:text="${'Description: ' + cartItem.description}"></span><br>
+                <span th:text="${'Quantity: ' + cartItem.quantity }"></span><br>
+                <span th:text="${'Price: ' + cartItem.price+ ' VND' }"></span>
+            </p>
+
         </div>
         <div class="col-2 text-right">
-            750,000đ
+            <p th:text="${cartItem.quantity * cartItem.price + ' VND'}" class="item-price"><span></span></p>
         </div>
         <div class="col-2 text-right">
-            <a href="#"><i class="fas fa-trash-alt"></i></a>
-        </div>
-    </div>
-    <div class="cart-item row align-items-center my-4">
-        <div class="col-2">
-            <img src="https://via.placeholder.com/100" alt="Stussy 80s" class="img-fluid">
-        </div>
-        <div class="col-6">
-            <h5>Stussy 80s</h5>
-            <p>Colour: Shown Black<br>Size: M<br>Item: Top</p>
-        </div>
-        <div class="col-2 text-right">
-            750,000đ
-        </div>
-        <div class="col-2 text-right">
-            <a href="#"><i class="fas fa-trash-alt"></i></a>
+            <a href="#" th:data-product-id="${cartItem.productId}" class="delete-item"><i class="fas fa-trash-alt"></i></a>
         </div>
     </div>
     <div class="cart-total">
@@ -168,15 +127,16 @@
             <tbody>
             <tr>
                 <td>Total amount</td>
-                <td class="text-right">1,500,000đ</td>
+<!--                th:text="${cartDTO.totalPrice + ' VND'}"-->
+                <td class="text-right" id="total-amount" >1,500,000đ</td>
             </tr>
             <tr>
                 <td>Shipping cost</td>
-                <td class="text-right">0đ</td>
+                <td class="text-right" >0đ</td>
             </tr>
             <tr>
                 <td><strong>Total payment</strong></td>
-                <td class="text-right"><strong>1,500,000đ</strong></td>
+                <td class="text-right" id="total-payment"><strong>1,500,000đ</strong></td>
             </tr>
             </tbody>
         </table>
@@ -224,5 +184,52 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Hàm tính tổng tiền giỏ hàng
+        function updateCartTotal() {
+            let total = 0;
+            document.querySelectorAll('.item-price').forEach(function (item) {
+                let price = parseFloat(item.innerText.replace(' VND', '').replace(/,/g, ''));
+                total += price;
+            });
+
+            let totalAmountElement = document.getElementById('total-amount');
+            let totalPaymentElement = document.getElementById('total-payment');
+
+            totalAmountElement.innerText = total.toLocaleString('vi-VN') + ' VND';
+            totalPaymentElement.innerText = total.toLocaleString('vi-VN') + ' VND';
+        }
+
+        // Gọi hàm updateCartTotal khi trang vừa tải lên
+        updateCartTotal();
+
+        // Xử lý sự kiện xóa mục giỏ hàng
+        document.querySelectorAll('.delete-item').forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                let cartItem = this.closest('.cart-item');
+                let productId = this.getAttribute('data-product-id');
+
+                // Gửi yêu cầu tới BE để xoá sản phẩm
+                fetch(`/shoppingCart/removeProduct/${productId}`, {
+                    method: 'GET'
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data === "00") {
+                            // Xoá phần tử khỏi DOM
+                            cartItem.remove();
+                            updateCartTotal();
+                        } else {
+                            alert('Failed to remove the product from cart.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+</script>
+
 </body>
 </html>
