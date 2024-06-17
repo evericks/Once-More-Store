@@ -198,7 +198,8 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <button class="btn btn-success btn-lg btn-block mt-3 buy-now-btn">Buy now</button>
+<!--                    <button class="btn btn-success btn-lg btn-block mt-3 buy-now-btn">Buy now</button>-->
+                    <a th:href="@{/shoppingCart/buyNow/{productId}(productId=${product.id})}" class="btn btn-success btn-lg btn-block mt-3 buy-now-btn">Buy now</a>
                 </div>
             </div>
             <input id="message" type="hidden" th:value="${toastMessage}"/>

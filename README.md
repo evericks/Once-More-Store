@@ -1,4 +1,7 @@
-http://localhost:8082/login
+http://localhost:8082/home
+
+
+
 http://localhost:8082/api/v1/payment/vn-pay?amount=12000&bankCode=NCB
 
 

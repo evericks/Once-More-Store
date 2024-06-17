@@ -194,7 +194,7 @@
                 </div>
                 <div class="form-group">
                     <label for="phone">Enter the phone number of the consignee</label>
-                    <input type="tel" id="phone" class="form-control">
+                    <input type="tel" id="phone" pattern="[0-9]*" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="email">Your email</label>
@@ -324,7 +324,7 @@
         });
 
         const xhr = new XMLHttpRequest();
-        const url = '/process-order-now';
+        const url = '/process-order';
         const jsonData = JSON.stringify(orderDTO);
 
 
@@ -336,8 +336,6 @@
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseText = xhr.responseText;
                 const response = JSON.parse(responseText);
-                console.log(responseText);
-                debugger;
                 if (response.resultCode === '00') {
                     console.log('Order processed successfully');
                     Toastify({
@@ -418,8 +416,8 @@
         console.log("giá: " + totalPrice);
         $('#total-order').text(totalPrice.toLocaleString('vi-VN') + ' VND');
         $('#total-amount').text(totalPrice.toLocaleString('vi-VN') + ' VND');
-        $('#amount').val(totalPrice);
         $('#total-payment').text(totalPrice.toLocaleString('vi-VN') + ' VND');
+        $('#amount').val(totalPrice);
         return totalPrice;
     }
 
@@ -509,6 +507,7 @@
             $('#isPayment').val('true'); // Đã chọn "Bank transfer"
         }
     });
+
     document.addEventListener("DOMContentLoaded", function() {
         const phoneInput = document.getElementById("phone");
 
