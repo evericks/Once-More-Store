@@ -13,7 +13,10 @@ import java.util.UUID;
 public interface CartItemRepository extends JpaRepository<CartItem, UUID> {
     CartItem findByCartIdAndProductId(UUID cartId, UUID productId);
 
-    @Query("select new com.oncemore.store.dto.CartItemDTO(ci.id, ci.productId, ci.quantity,p.name,p.description,p.price, p.status, pi.url) from CartItem ci left join Product p " +
-            "on ci.productId = p.id left join ProductImage pi on p.id = pi.productId where ci.cartId = :cartId and pi.isPrimary = true ")
+    @Query("select new com.oncemore.store.dto.CartItemDTO(ci.id, ci.productId, ci.quantity,p.name,p.description,p.price, p.status, pi.url, p.quantity) " +
+            "from CartItem ci left join Product p " +
+            "on ci.productId = p.id left join ProductImage pi on p.id = pi.productId and pi.isPrimary = true where ci.cartId = :cartId  ")
     List<CartItemDTO> findAllByCartId(UUID cartId);
+
+    void deleteAllByCartId(UUID cartId);
 }

@@ -25,11 +25,11 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
             " left JOIN ProductCategory pc ON p.id = pc.productId " +
             " left JOIN Category c ON pc.categoryId = c.id " +
             " left join ProductImage pi on p.id = pi.productId and pi.isPrimary = :active " +
-            " WHERE c.name = :categoryName " +
-            "AND (:minPrice IS NULL OR p.price >= :minPrice)" +
-            "AND (:maxPrice IS NULL OR p.price <= :maxPrice)")
+            " WHERE " +
+            " (:minPrice IS NULL OR p.price >= :minPrice)" +
+            "AND (:maxPrice IS NULL OR p.price <= :maxPrice) AND (:categoryId IS NULL OR pc.categoryId = :categoryId)")
 
-    List<ProductDTO> filterByCategoryAndPrice(@Param("categoryName") String categoryName,
+    List<ProductDTO> filterByCategoryAndPrice(@Param("categoryId") UUID categoryId,
                                            @Param("minPrice") BigDecimal minPrice,
                                            @Param("maxPrice") BigDecimal maxPrice,
                                               @Param("active") boolean active);

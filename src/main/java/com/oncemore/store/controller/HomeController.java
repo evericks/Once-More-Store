@@ -20,7 +20,7 @@ public class HomeController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("/home")
+    @GetMapping(value = {"/home", "/"})
     public String home(Model model, @ModelAttribute("toastMessage") String toastMessage) {
         List<ProductDTO> products = productService.getAllProducts();
         model.addAttribute("products", products);

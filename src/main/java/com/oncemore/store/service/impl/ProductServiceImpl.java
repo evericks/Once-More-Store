@@ -129,8 +129,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> filterProductsByCategoryAndPrice(String categoryName, BigDecimal minPrice, BigDecimal maxPrice) {
-        return repository.filterByCategoryAndPrice(categoryName, minPrice, maxPrice, true);
+    public List<ProductDTO> filterProductsByCategoryAndPrice(UUID categoryId, BigDecimal minPrice, BigDecimal maxPrice) {
+        if (UUID.fromString("11111111-1111-1111-1111-111111111111").equals(categoryId)) {
+            categoryId = null;
+        }
+        return repository.filterByCategoryAndPrice(categoryId, minPrice, maxPrice, true);
     }
 
     private void saveProductImageAndCategories(ProductModel productModel, List<MultipartFile> images) {

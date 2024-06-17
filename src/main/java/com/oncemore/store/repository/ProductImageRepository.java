@@ -14,4 +14,7 @@ public interface ProductImageRepository extends JpaRepository<ProductImage, UUID
     List<String> findAllUrlByProductId(UUID productId);
 
     void deleteAllByProductId(UUID productId);
+
+    @Query("select pi.url from ProductImage pi where  pi.productId = :productId and pi.isPrimary = true ")
+    String findUrlByProductId(UUID productId);
 }

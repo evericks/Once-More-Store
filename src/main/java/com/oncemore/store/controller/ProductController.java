@@ -100,11 +100,13 @@ public class ProductController {
     }
 
     @GetMapping("/filter")
-    public String filterProductsByCategoryAndPrice(@RequestParam("categoryName") String categoryName,
-                                                   @RequestParam("minPrice") BigDecimal minPrice,
-                                                   @RequestParam("maxPrice") BigDecimal maxPrice,
+    public String filterProductsByCategoryAndPrice(@RequestParam(value = "categoryId", required = false) UUID categoryId,
+                                                   @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
+                                                   @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
                                                    Model model) {
-        List<ProductDTO> products = productService.filterProductsByCategoryAndPrice(categoryName, minPrice, maxPrice);
+        List<ProductDTO> products = productService.filterProductsByCategoryAndPrice(categoryId, minPrice, maxPrice);
+        List<Category> categories = categoryService.findAll();
+        model.addAttribute("categories", categories);
         model.addAttribute("products", products);
         return "product";
     }

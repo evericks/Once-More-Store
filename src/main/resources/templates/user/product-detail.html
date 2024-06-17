@@ -246,18 +246,14 @@
                 })
                     .then(response => response.text())
                     .then(data => {
-                        if (data === "00") {
-                            Toastify({
-                                text: "Đã thêm vào giỏ hàng!",
-                                duration: 3000,
-                                close: true,
-                                gravity: "top", // `top` or `bottom`
-                                position: "right", // `left`, `center` or `right`
-                                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-                            }).showToast();
-                        } else {
-                            alert('Failed to remove the product from cart.');
-                        }
+                        Toastify({
+                            text: data,
+                            duration: 3000,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                        }).showToast();
                     })
                     .catch(error => console.error('Error:', error));
             });

@@ -141,44 +141,8 @@
             </tbody>
         </table>
     </div>
-    <button class="btn btn-dark btn-block my-4">Continue payment</button>
+    <button class="btn btn-dark btn-block my-4" onclick="continuePayment()">Continue payment</button>
 </div>
-
-<!-- Footer -->
-<footer class="bg-dark text-white py-4">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h5>Customer Support</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">Customer care</a></li>
-                    <li><a href="#" class="text-white">FAQ</a></li>
-                    <li><a href="#" class="text-white">Shipping guides</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <h5>Policy Only</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">Warranty</a></li>
-                    <li><a href="#" class="text-white">Exchange policy</a></li>
-                    <li><a href="#" class="text-white">Information security</a></li>
-                    <li><a href="#" class="text-white">Delivery policy</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <h5>About Us</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">News</a></li>
-                    <li><a href="#" class="text-white">Career</a></li>
-                    <li><a href="#" class="text-white">Investors</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="text-center mt-4">
-            <small>CONTACT<br>Email: contact@oncemore.com<br>Phone: +84 368988258</small>
-        </div>
-    </div>
-</footer>
 
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -229,7 +193,12 @@
             });
         });
     });
+
+    function continuePayment() {
+            window.location.href = '/shoppingCart/view-order';
+    }
 </script>
 
+<div th:replace="/fragments/footer :: footer"/>
 </body>
 </html>

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -13,16 +14,18 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "Order")
+@Table(name = "\"Order\"")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id")
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "UserId", nullable = false)
-    private User user;
+    //    @ManyToOne
+//    @JoinColumn(name = "UserId", nullable = false)
+//    private User user;
+    @Column(name = "UserId", nullable = false)
+    private UUID userId;
 
     @Column(name = "Address", nullable = false)
     private String address;
@@ -34,11 +37,21 @@ public class Order {
     private String receiverName;
 
     @Column(name = "Amount", nullable = false)
-    private double amount;
+    private BigDecimal amount;
 
     @Column(name = "IsPayment", nullable = false)
     private boolean isPayment;
 
+    @Column(name = "Notes",length = 2000)
+    private String notes;
+
+    @Column(name = "Status")
+    @Enumerated(EnumType.STRING)
+    private EOrderStatus status;
+
     @Column(name = "PaymentMethod", nullable = false)
     private String paymentMethod;
+
+    @Column(name = "OrderCode", nullable = false, unique = true)
+    private String orderCode;
 }

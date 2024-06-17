@@ -25,5 +25,5 @@ public interface ProductService {
 
     ProductDTO getProductById(UUID id);
 
-    List<ProductDTO> filterProductsByCategoryAndPrice(String categoryName, BigDecimal minPrice, BigDecimal maxPrice);
+    List<ProductDTO> filterProductsByCategoryAndPrice(UUID categoryId, BigDecimal minPrice, BigDecimal maxPrice);
 }
