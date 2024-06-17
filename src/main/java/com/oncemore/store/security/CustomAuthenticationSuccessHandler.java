@@ -28,7 +28,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         } else if (roles.contains("ROLE_USER")) {
             if (null != savedRequest) {
-                response.sendRedirect(savedRequest.getRedirectUrl());
+                if (savedRequest.getRedirectUrl().contains("shoppingCart/addProduct")) {
+                    response.sendRedirect("/home");
+                } else {
+                    response.sendRedirect(savedRequest.getRedirectUrl());
+                }
             } else {
                 response.sendRedirect("/home");
             }

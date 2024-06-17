@@ -26,6 +26,6 @@ public class OrderDTO {
 
     @NotNull
     private BigDecimal amount;
-    private boolean isPayment;
+    private String isPayment;
     private List<OrderDetailDTO> orderDetailDTOList;
 }

@@ -19,6 +19,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomAuthenticationProvider authProvider;
 
+    @Autowired
+    private CustomAuthenticationEntryPoint authenticationEntryPoint;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
@@ -33,8 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/init/**","/api/v1/payment/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/shoppingCart/**","/process-order/**",
-                        "/process-order-now/**","/user/product/detail/**").hasRole("USER")
+                        "/process-order-now/**","/user/product/detail/**","/shoppingCart/**/**").hasRole("USER")
                 .anyRequest().authenticated()
+                .and()
+                .httpBasic()
+                .authenticationEntryPoint(authenticationEntryPoint) // Sử dụng custom authentication entry point
                 .and()
                 .formLogin()
                 .loginPage("/login")

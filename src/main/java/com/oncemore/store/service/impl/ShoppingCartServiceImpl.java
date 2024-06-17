@@ -95,16 +95,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             order.setAddress(orderDTO.getAddress());
             order.setPhone(orderDTO.getPhone());
             order.setReceiverName(orderDTO.getReceiverName());
-            order.setPayment(orderDTO.isPayment());
-            String orderCode = VNPayUtil.getRandomNumber(12);
+            if ("false".equals(orderDTO.getIsPayment())) {
+                order.setPayment(false);
+            } else {
+                order.setPayment(true);
+            }
+            String orderCode = VNPayUtil.getRandomNumber(8);
             order.setOrderCode(orderCode);
             order.setAmount(orderDTO.getAmount());
             responseOrder.setOrderCode(orderCode);
             responseOrder.setAmount(orderDTO.getAmount());
-            if (orderDTO.isPayment()) {
+            if (order.isPayment()) {
                 responseOrder.setPayment(true);
                 order.setPaymentMethod("VNPAY");
-                order.setStatus(EOrderStatus.PENDING);
+//                order.setStatus(EOrderStatus.PENDING);
+                order.setStatus(EOrderStatus.SUCCESS);
             } else {
                 responseOrder.setPayment(false);
                 order.setPaymentMethod("CASH");
@@ -138,7 +143,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             }
             productRepository.saveAll(products);
             orderDetailRepository.saveAll(orderDetails);
-            if (!orderNow && !orderDTO.isPayment()) {
+//            if (!orderNow && !order.isPayment()) {
+            if (!orderNow) {
                 cartItemRepository.deleteAllByCartId(userCartInfo.getCartId());
             }
         }
