@@ -40,10 +40,9 @@
                 <label for="price">Shop by prices</label>
                 <select class="form-control" id="price">
                     <option th:min-price="0" th:max-price="999999999999" >All</option>
-                    <option th:min-price="0" th:max-price="50">$0 - $50</option>
-                    <option th:min-price="50" th:max-price="100">$50 - $100</option>
-                    <option th:min-price="100" th:max-price="200">$100 - $200</option>
-                    <option th:min-price="200" th:max-price="999999999999">$100 - $200</option>
+                    <option th:min-price="0" th:max-price="100000">Dưới 100k</option>
+                    <option th:min-price="100000" th:max-price="500000">100k - 500k</option>
+                    <option th:min-price="500000" th:max-price="999999999999">Trên 500k</option>
                 </select>
             </div>
         </div>
@@ -109,7 +108,7 @@
                     .then(data => {
                         const result = JSON.parse(data);
                         debugger
-                        if (result.status == 401) {
+                        if (result.status == 401 || result.status == 403) {
                             window.location.href = '/login';
                         } else {
                             Toastify({
