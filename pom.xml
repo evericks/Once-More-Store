@@ -6,7 +6,7 @@
     <groupId>com.oncemore.store</groupId>
     <artifactId>once-more-store</artifactId>
     <version>0.0.1</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>once-more-store</name>
 
